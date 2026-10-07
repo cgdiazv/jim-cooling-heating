@@ -67,6 +67,29 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent background scroll when sidebar drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
+
+  // Close drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);
@@ -297,164 +320,244 @@ export default function Navbar() {
 
               <button
                 type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => setMobileMenuOpen(true)}
                 className="p-2 rounded-lg text-slate-700 hover:text-[#006397] hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#128dd1]"
                 aria-expanded={mobileMenuOpen}
-                aria-label="Toggle navigation menu"
+                aria-label="Open navigation menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="h-6 w-6 text-slate-800" />
-                ) : (
-                  <Menu className="h-6 w-6 text-slate-800" />
-                )}
+                <Menu className="h-6 w-6 text-slate-800" />
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Navigation Sidebar Drawer & Backdrop */}
       <div
-        className={`lg:hidden transition-all duration-300 ease-in-out border-b border-slate-200 bg-white overflow-hidden ${
-          mobileMenuOpen ? "max-h-[640px] opacity-100 shadow-xl" : "max-h-0 opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${
+          mobileMenuOpen ? "visible" : "invisible pointer-events-none"
         }`}
+        aria-hidden={!mobileMenuOpen}
       >
-        <div className="px-4 pt-3 pb-6 space-y-3 max-h-[85vh] overflow-y-auto">
-          {/* Mobile Links */}
-          <div className="space-y-1">
-            {/* Services with Accordion */}
-            <div>
-              <div className="flex items-center justify-between rounded-lg hover:bg-slate-50">
-                <Link
-                  href="/services"
-                  className={`flex-1 px-3 py-2.5 font-semibold text-base ${
-                    isActive("/services") ? "text-[#006397]" : "text-slate-800"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Services
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                  className="p-2 text-slate-500 hover:text-[#006397] focus:outline-none"
-                  aria-label="Toggle Services submenu"
-                >
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${
-                      mobileServicesOpen ? "rotate-180 text-[#006397]" : ""
-                    }`}
-                  />
-                </button>
-              </div>
+        {/* Dark Backdrop Overlay */}
+        <div
+          className={`fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${
+            mobileMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
 
-              {mobileServicesOpen && (
-                <div className="pl-4 pr-2 py-2 space-y-1.5 bg-slate-50/70 rounded-lg my-1">
-                  {servicesList.map((service) => {
-                    const IconComponent = service.icon;
-                    return (
-                      <Link
-                        key={service.name}
-                        href={service.href}
-                        className="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm font-medium text-slate-700 hover:text-[#006397] hover:bg-white"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <IconComponent className="h-4 w-4 text-[#128dd1]" />
-                        <span>{service.name}</span>
-                      </Link>
-                    );
-                  })}
+        {/* Sidebar Drawer Panel */}
+        <aside
+          className={`fixed top-0 right-0 bottom-0 w-[85%] max-w-sm sm:max-w-md bg-white shadow-2xl flex flex-col z-[101] transform transition-transform duration-300 ease-in-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation Drawer"
+        >
+          {/* Drawer Top Branding & Close Header */}
+          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Image
+                src="/logo.webp"
+                alt="Jim Cooling & Heating Logo"
+                width={36}
+                height={36}
+                className="h-9 w-auto object-contain"
+              />
+              <div className="leading-none">
+                <span className="block font-black text-sm tracking-tight text-[#006397]">
+                  JIM COOLING & HEATING
+                </span>
+                <span className="block text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
+                  Houston HVAC Pros
+                </span>
+              </div>
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/70 focus:outline-none focus:ring-2 focus:ring-[#006397] transition-colors"
+              aria-label="Close menu drawer"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Drawer Scrollable Content */}
+          <div className="flex-1 overflow-y-auto px-5 py-5 space-y-6">
+            {/* Quick 24/7 Service Banner */}
+            <div className="p-3 rounded-xl bg-red-50 border border-red-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#b51527] animate-pulse" />
+                <span className="text-xs font-bold uppercase text-[#b51527] tracking-wider">
+                  24/7 Emergency HVAC
+                </span>
+              </div>
+              <a
+                href="tel:+17132699054"
+                className="text-xs font-bold text-[#b51527] hover:underline"
+              >
+                Call Now
+              </a>
+            </div>
+
+            {/* Navigation Links */}
+            <nav className="space-y-1.5">
+              <Link
+                href="/"
+                className={`flex items-center justify-between px-3.5 py-3 rounded-xl font-bold text-base transition-colors ${
+                  pathname === "/"
+                    ? "text-[#006397] bg-sky-50"
+                    : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Home</span>
+              </Link>
+
+              {/* Services with Expandable Submenu */}
+              <div className="rounded-xl overflow-hidden">
+                <div
+                  className={`flex items-center justify-between rounded-xl transition-colors ${
+                    isActive("/services") ? "bg-sky-50 text-[#006397]" : "hover:bg-slate-50 text-slate-800"
+                  }`}
+                >
                   <Link
                     href="/services"
-                    className="flex items-center justify-between py-2 px-3 text-xs font-semibold text-[#006397]"
+                    className="flex-1 px-3.5 py-3 font-bold text-base"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <span>View All Services</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    Services
                   </Link>
+                  <button
+                    type="button"
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    className="p-3 text-slate-500 hover:text-[#006397] focus:outline-none"
+                    aria-label="Toggle Services submenu"
+                  >
+                    <ChevronDown
+                      className={`h-5 w-5 transition-transform duration-200 ${
+                        mobileServicesOpen ? "rotate-180 text-[#006397]" : ""
+                      }`}
+                    />
+                  </button>
                 </div>
-              )}
+
+                {mobileServicesOpen && (
+                  <div className="pl-3 pr-2 py-2 space-y-1 bg-slate-50/80 rounded-xl my-1.5 border border-slate-100">
+                    {servicesList.map((service) => {
+                      const IconComponent = service.icon;
+                      return (
+                        <Link
+                          key={service.name}
+                          href={service.href}
+                          className="flex items-center gap-3 py-2 px-3 rounded-lg text-sm font-medium text-slate-700 hover:text-[#006397] hover:bg-white transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <IconComponent className="h-4 w-4 text-[#128dd1] flex-shrink-0" />
+                          <span>{service.name}</span>
+                        </Link>
+                      );
+                    })}
+                    <Link
+                      href="/services"
+                      className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-[#006397] hover:underline"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Explore All Services</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* About Us */}
+              <Link
+                href="/about"
+                className={`flex items-center justify-between px-3.5 py-3 rounded-xl font-bold text-base transition-colors ${
+                  isActive("/about")
+                    ? "text-[#006397] bg-sky-50"
+                    : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>About Us</span>
+              </Link>
+
+              {/* Projects */}
+              <Link
+                href="/projects"
+                className={`flex items-center justify-between px-3.5 py-3 rounded-xl font-bold text-base transition-colors ${
+                  isActive("/projects")
+                    ? "text-[#006397] bg-sky-50"
+                    : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Projects</span>
+              </Link>
+
+              {/* Contact */}
+              <Link
+                href="/contact"
+                className={`flex items-center justify-between px-3.5 py-3 rounded-xl font-bold text-base transition-colors ${
+                  isActive("/contact")
+                    ? "text-[#006397] bg-sky-50"
+                    : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Contact</span>
+              </Link>
+            </nav>
+
+            {/* Direct Call & Quote CTAs */}
+            <div className="space-y-2.5 pt-2 border-t border-slate-100">
+              <Link
+                href="/contact#quote"
+                className="w-full flex items-center justify-center gap-2 bg-[#b51527] hover:bg-[#961220] text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <CalendarDays className="h-4 w-4" />
+                <span>Get Free Quote</span>
+              </Link>
+
+              <a
+                href="tel:+17132699054"
+                className="w-full flex items-center justify-center gap-2 bg-[#006397] hover:bg-[#004e77] text-white py-3.5 rounded-xl font-bold text-sm shadow-sm transition-colors"
+              >
+                <Phone className="h-4 w-4" />
+                <span>Call +1 (713) 269-9054</span>
+              </a>
             </div>
 
-            {/* About Us */}
-            <Link
-              href="/about"
-              className={`block px-3 py-2.5 rounded-lg font-semibold text-base transition-colors ${
-                isActive("/about")
-                  ? "text-[#006397] bg-sky-50"
-                  : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About Us
-            </Link>
-
-            {/* Projects */}
-            <Link
-              href="/projects"
-              className={`block px-3 py-2.5 rounded-lg font-semibold text-base transition-colors ${
-                isActive("/projects")
-                  ? "text-[#006397] bg-sky-50"
-                  : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </Link>
-
-            {/* Contact */}
-            <Link
-              href="/contact"
-              className={`block px-3 py-2.5 rounded-lg font-semibold text-base transition-colors ${
-                isActive("/contact")
-                  ? "text-[#006397] bg-sky-50"
-                  : "text-slate-800 hover:bg-slate-50 hover:text-[#006397]"
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-          </div>
-
-          {/* Action CTAs in Mobile Drawer */}
-          <div className="pt-3 border-t border-slate-200 space-y-2.5">
-            <Link
-              href="/contact#quote"
-              className="w-full flex items-center justify-center gap-2 bg-[#b51527] hover:bg-[#961220] text-white py-3 rounded-lg font-semibold text-sm shadow-md transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <CalendarDays className="h-4 w-4" />
-              <span>Get Free Quote</span>
-            </Link>
-
-            <a
-              href="tel:+17132699054"
-              className="w-full flex items-center justify-center gap-2 bg-[#006397] hover:bg-[#004e77] text-white py-3 rounded-lg font-semibold text-sm shadow-sm transition-colors"
-            >
-              <Phone className="h-4 w-4" />
-              <span>Call +1 (713) 269-9054 (24/7)</span>
-            </a>
-          </div>
-
-          {/* Quick info card */}
-          <div className="mt-4 p-3 rounded-lg bg-slate-50 border border-slate-100 text-xs text-slate-500 space-y-1">
-            <div className="flex items-center gap-1.5 text-slate-700 font-medium">
-              <MapPin className="h-3.5 w-3.5 text-[#128dd1]" />
-              <span>Serving Metro Area & Surrounding Counties</span>
-            </div>
-            <a
-              href="mailto:hvac@jimcoolingandheating.com"
-              className="flex items-center gap-1.5 text-slate-700 hover:text-[#006397] font-medium transition-colors"
-            >
-              <Mail className="h-3.5 w-3.5 text-[#128dd1]" />
-              <span>hvac@jimcoolingandheating.com</span>
-            </a>
-            <div className="flex items-center gap-1.5 text-slate-600">
-              <ShieldCheck className="h-3.5 w-3.5 text-[#006397]" />
-              <span>Licensed, Bonded & Insured</span>
+            {/* Quick Contact & Credentials Info */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 space-y-2.5">
+              <div className="flex items-start gap-2 text-slate-700 font-medium">
+                <MapPin className="h-4 w-4 text-[#128dd1] flex-shrink-0 mt-0.5" />
+                <span>Houston Metro Area & Regional Counties</span>
+              </div>
+              <a
+                href="mailto:hvac@jimcoolingandheating.com"
+                className="flex items-center gap-2 text-slate-700 hover:text-[#006397] font-medium transition-colors"
+              >
+                <Mail className="h-4 w-4 text-[#128dd1] flex-shrink-0" />
+                <span className="truncate">hvac@jimcoolingandheating.com</span>
+              </a>
+              <div className="flex items-center gap-2 text-slate-600">
+                <ShieldCheck className="h-4 w-4 text-[#006397] flex-shrink-0" />
+                <span>Licensed, Bonded & Insured</span>
+              </div>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </header>
   );
