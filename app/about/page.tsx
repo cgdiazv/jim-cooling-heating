@@ -2,8 +2,8 @@ import Image from "next/image";
 import { ShieldCheck, Award, Users } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | JIM Cooling & Heating",
-  description: "Learn about JIM Cooling & Heating - your trusted local HVAC contractors dedicated to residential and commercial climate excellence.",
+  title: "About Us | JIM Cooling and Heating Services",
+  description: "Learn about JIM Cooling and Heating Services - your trusted local HVAC contractors dedicated to residential and commercial climate excellence.",
 };
 
 export default function AboutPage() {
@@ -14,13 +14,13 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <span className="text-xs font-bold tracking-widest uppercase text-[#128dd1]">
-              About JIM Cooling & Heating
+              About JIM Cooling and Heating Services
             </span>
             <h1 className="text-4xl font-extrabold text-[#006397] sm:text-5xl">
               Dedicated to Keeping Families & Businesses Comfortable
             </h1>
             <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-              Founded on the values of honest service, technical precision, and transparent pricing, JIM Cooling & Heating has grown into one of the most trusted heating and air conditioning contractors in the region.
+              Founded on the values of honest service, technical precision, and transparent pricing, JIM Cooling and Heating Services has grown into one of the most trusted heating and air conditioning contractors in the region.
             </p>
             <p className="text-slate-600 text-base leading-relaxed">
               Whether you need rapid midnight emergency repairs or a multi-zone heat pump system installation for a modern home, our EPA-certified and factory-trained technicians arrive prepared to get the job done right the first time.
@@ -41,7 +41,7 @@ export default function AboutPage() {
           <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-4/3 bg-slate-200">
             <Image
               src="/img01.webp"
-              alt="JIM Cooling & Heating technician in service"
+              alt="JIM Cooling and Heating Services technician in service"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"

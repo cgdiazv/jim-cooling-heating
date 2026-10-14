@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
         <h2 style="color: #006397; margin-top: 0;">New Quote / Contact Request</h2>
-        <p style="color: #475569; font-size: 14px;">A new inquiry has been submitted through the Jim Cooling & Heating website contact form.</p>
+        <p style="color: #475569; font-size: 14px;">A new inquiry has been submitted through the JIM Cooling and Heating Services website contact form.</p>
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
         
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
@@ -76,12 +76,12 @@ export async function POST(req: Request) {
         }
 
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0 16px;" />
-        <p style="color: #94a3b8; font-size: 12px; margin: 0;">Sent automatically via Jim Cooling & Heating Contact Form.</p>
+        <p style="color: #94a3b8; font-size: 12px; margin: 0;">Sent automatically via JIM Cooling and Heating Services Contact Form.</p>
       </div>
     `;
 
     const { data, error } = await resend.emails.send({
-      from: "Jim Cooling & Heating <notifications@indevasa.com>",
+      from: "JIM Cooling and Heating Services <notifications@indevasa.com>",
       to: ["hvac@jimcoolingandheating.com"],
       replyTo: email,
       subject: emailSubject,

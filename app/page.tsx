@@ -47,7 +47,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg sm:text-xl text-sky-100/90 leading-relaxed">
-              From emergency AC repairs to energy-efficient furnace installations, JIM Cooling & Heating delivers certified, guaranteed comfort year-round.
+              From emergency AC repairs to energy-efficient furnace installations, JIM Cooling and Heating Services delivers certified, guaranteed comfort year-round.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
@@ -213,7 +213,7 @@ export default function Home() {
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 aspect-square sm:aspect-4/3 lg:aspect-square">
                   <Image
                     src="/img02.webp"
-                    alt="Jim Cooling and Heating HVAC team at work"
+                    alt="JIM Cooling and Heating Services HVAC team at work"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -258,7 +258,7 @@ export default function Home() {
 
               {/* Exact Text Required by User */}
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium bg-slate-50 p-5 rounded-2xl border-l-4 border-[#006397] border border-slate-100">
-                Since 2006, Jim Cooling and Heating has been your trusted partner for top-notch HVAC solutions. Our bonded and insured team specializes in installations, repairs, and maintenance to ensure peak performance. Choose us for reliable, efficient service that saves you money and reduces environmental impact.
+                Since 2006, JIM Cooling and Heating Services has been your trusted partner for top-notch HVAC solutions. Our bonded and insured team specializes in installations, repairs, and maintenance to ensure peak performance. Choose us for reliable, efficient service that saves you money and reduces environmental impact.
               </p>
 
               {/* Core Feature Pillars */}
@@ -344,7 +344,7 @@ export default function Home() {
               What Our Customers Say
             </h2>
             <p className="mt-3 text-slate-600 text-base sm:text-lg">
-              Read verified feedback from homeowners and businesses across Greater Houston who trust Jim Cooling & Heating for their climate needs.
+              Read verified feedback from homeowners and businesses across Greater Houston who trust JIM Cooling and Heating Services for their climate needs.
             </p>
           </div>
 
@@ -388,7 +388,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="font-bold text-slate-900 text-lg leading-tight">
-                        Jim Cooling And Heating Services
+                        JIM Cooling and Heating Services
                       </h3>
                       <p className="text-xs text-slate-500">Google Business Profile</p>
                     </div>
@@ -451,7 +451,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-5 py-2.5 rounded-xl font-semibold text-xs transition-colors"
                 >
-                  <span>Leave a Review for Jim Cooling & Heating</span>
+                  <span>Leave a Review for JIM Cooling and Heating Services</span>
                 </a>
               </div>
             </div>
@@ -473,7 +473,7 @@ export default function Home() {
               </div>
               <div className="relative w-full h-[380px] sm:h-[440px] bg-slate-100 flex-1">
                 <iframe
-                  title="Jim Cooling And Heating Services Google Maps Location"
+                  title="JIM Cooling and Heating Services Google Maps Location"
                   src="https://maps.google.com/maps?q=Jim+Cooling+And+Heating+Services+Houston+TX&t=&z=11&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"

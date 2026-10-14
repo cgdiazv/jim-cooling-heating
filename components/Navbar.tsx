@@ -136,7 +136,7 @@ export default function Navbar() {
             <a
               href="mailto:hvac@jimcoolingandheating.com"
               className="hidden xl:inline-flex items-center gap-1.5 font-medium text-white hover:text-[#128dd1] transition-colors"
-              title="Email JIM Cooling & Heating"
+              title="Email JIM Cooling and Heating Services"
             >
               <Mail className="h-3.5 w-3.5 text-[#128dd1]" />
               <span>hvac@jimcoolingandheating.com</span>
@@ -144,7 +144,7 @@ export default function Navbar() {
             <a
               href="tel:+17132699054"
               className="inline-flex items-center gap-1.5 font-bold text-white hover:text-[#128dd1] transition-colors"
-              title="Call JIM Cooling & Heating directly"
+              title="Call JIM Cooling and Heating Services directly"
             >
               <Phone className="h-3.5 w-3.5 text-[#128dd1]" />
               <span>+1 (713) 269-9054</span>
@@ -167,12 +167,12 @@ export default function Navbar() {
             <Link
               href="/"
               className="flex items-center gap-3 flex-shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#128dd1] rounded-lg p-1"
-              aria-label="JIM Cooling & Heating Homepage"
+              aria-label="JIM Cooling and Heating Services Homepage"
             >
               <div className="relative h-12 sm:h-14 w-auto flex items-center">
                 <Image
                   src="/logo.webp"
-                  alt="JIM Cooling & Heating Logo"
+                  alt="JIM Cooling and Heating Services Logo"
                   width={169}
                   height={104}
                   priority
@@ -288,7 +288,7 @@ export default function Navbar() {
               <a
                 href="tel:+17132699054"
                 className="hidden xl:flex items-center gap-2 px-3 py-2 text-slate-700 hover:text-[#006397] font-medium text-sm transition-colors rounded-lg hover:bg-slate-50"
-                title="Call JIM Cooling & Heating"
+                title="Call JIM Cooling and Heating Services"
               >
                 <div className="p-1.5 rounded-full bg-[#128dd1]/10 text-[#128dd1]">
                   <Phone className="h-3.5 w-3.5" />
@@ -365,14 +365,14 @@ export default function Navbar() {
             >
               <Image
                 src="/logo.webp"
-                alt="Jim Cooling & Heating Logo"
+                alt="JIM Cooling and Heating Services Logo"
                 width={36}
                 height={36}
                 className="h-9 w-auto object-contain"
               />
               <div className="leading-none">
-                <span className="block font-black text-sm tracking-tight text-[#006397]">
-                  JIM COOLING & HEATING
+                <span className="block font-black text-xs sm:text-sm tracking-tight text-[#006397]">
+                  JIM COOLING AND HEATING SERVICES
                 </span>
                 <span className="block text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
                   Houston HVAC Pros

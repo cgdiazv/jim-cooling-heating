@@ -39,7 +39,7 @@ export default function Footer() {
             <Link href="/" className="inline-block p-1 bg-white/95 rounded-xl shadow-md">
               <Image
                 src="/logo.webp"
-                alt="JIM Cooling & Heating Logo"
+                alt="JIM Cooling and Heating Services Logo"
                 width={150}
                 height={92}
                 className="h-12 w-auto object-contain"
@@ -47,7 +47,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-sky-100/80 leading-relaxed max-w-sm">
-              Since 2006, JIM Cooling & Heating has been Greater Houston’s trusted partner for top-notch residential and commercial HVAC solutions, emergency repairs, and preventative maintenance.
+              Since 2006, JIM Cooling and Heating Services has been Greater Houston’s trusted partner for top-notch residential and commercial HVAC solutions, emergency repairs, and preventative maintenance.
             </p>
 
             <div className="space-y-2 pt-1 text-xs text-sky-100/90">
@@ -150,7 +150,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sky-200/70">
           {/* Left: Copyright */}
           <div>
-            © {currentYear} JIM Cooling & Heating. All rights reserved.
+            © {currentYear} JIM Cooling and Heating Services. All rights reserved.
           </div>
 
           {/* Right: Indeva Websites link opening in new tab */}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Featured Projects | JIM Cooling & Heating",
+  title: "Featured Projects | JIM Cooling and Heating Services",
   description: "Browse our portfolio of residential and commercial heating, cooling, and heat pump installations.",
 };
 

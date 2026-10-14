@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "HVAC Services in Houston | Servicing, Installation & Maintenance | JIM Cooling & Heating",
+  title: "HVAC Services in Houston | Servicing, Installation & Maintenance | JIM Cooling and Heating Services",
   description:
     "Expert HVAC servicing, installation, and maintenance across the Greater Houston area. Lower your energy bills, prevent breakdowns, and optimize indoor comfort.",
 };
@@ -381,7 +381,7 @@ export default function ServicesPage() {
               Ready to Optimize Your Indoor Comfort and Save Money?
             </h2>
             <p className="text-blue-100 text-base sm:text-lg">
-              Whether you need urgent system servicing, a new high-efficiency installation, or preventative maintenance, Jim Cooling and Heating is ready to serve you.
+              Whether you need urgent system servicing, a new high-efficiency installation, or preventative maintenance, JIM Cooling and Heating Services is ready to serve you.
             </p>
             <div className="pt-2 flex flex-wrap gap-4">
               <Link

@@ -84,7 +84,7 @@ export default function ContactPage() {
             Get in Touch With Our HVAC Team
           </h1>
           <p className="mt-4 text-slate-600 text-lg">
-            Request a free on-site quote, ask a question, or reach our emergency dispatch team 24 hours a day, 7 days a week.
+            Request a free on-site quote, ask a question, or reach the JIM Cooling and Heating Services emergency dispatch team 24 hours a day, 7 days a week.
           </p>
         </div>
 

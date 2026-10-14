@@ -12,9 +12,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "JIM Cooling & Heating | Professional HVAC Solutions & 24/7 Emergency Service",
+  title: "JIM Cooling and Heating Services | Professional HVAC Solutions & 24/7 Emergency Service",
   description:
-    "JIM Cooling & Heating provides top-rated residential and commercial HVAC installation, maintenance, and emergency repair services. Call today for a free quote!",
+    "JIM Cooling and Heating Services provides top-rated residential and commercial HVAC installation, maintenance, and emergency repair services. Call today for a free quote!",
 };
 
 export default function RootLayout({

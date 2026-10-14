@@ -23,7 +23,7 @@ const googleReviews: GoogleReview[] = [
     date: "2 weeks ago",
     rating: 5,
     service: "Emergency AC Repair",
-    text: "Our AC compressor gave out on a 98-degree Houston afternoon. Called Jim Cooling & Heating and they had a technician out in less than 90 minutes. Honest quote, had the parts in the truck, and had ice cold air blowing right away. Truly life-saving service!",
+    text: "Our AC compressor gave out on a 98-degree Houston afternoon. Called JIM Cooling and Heating Services and they had a technician out in less than 90 minutes. Honest quote, had the parts in the truck, and had ice cold air blowing right away. Truly life-saving service!",
   },
   {
     id: "2",
@@ -53,7 +53,7 @@ const googleReviews: GoogleReview[] = [
     date: "3 months ago",
     rating: 5,
     service: "Ductless Mini-Split Installation",
-    text: "We needed cooling for our garage workshop and home office addition. Jim Cooling & Heating designed a flawless multi-zone ductless mini-split setup. Runs whisper quiet and cools exceptionally fast. Highly recommend them to anyone in the Houston area!",
+    text: "We needed cooling for our garage workshop and home office addition. JIM Cooling and Heating Services designed a flawless multi-zone ductless mini-split setup. Runs whisper quiet and cools exceptionally fast. Highly recommend them to anyone in the Houston area!",
   },
   {
     id: "5",
