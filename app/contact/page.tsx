@@ -1,40 +1,37 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Phone,
   Mail,
   MapPin,
   Clock,
-  CalendarDays,
-  Loader2,
+  ArrowUpRight,
   CheckCircle2,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 
+const SERVICE_OPTIONS = [
+  { id: "Commercial HVAC", label: "Commercial HVAC" },
+  { id: "Commercial Refrigeration", label: "Commercial Refrigeration" },
+  { id: "Residential HVAC", label: "Residential HVAC" },
+  { id: "Preventive Maintenance", label: "Preventive Maintenance" },
+  { id: "Financing Inquiry", label: "Financing Inquiry" },
+];
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    service: "ac-repair",
-    message: "",
-  });
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("Commercial HVAC");
+  const [message, setMessage] = useState("");
 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,12 +39,24 @@ export default function ContactPage() {
     setErrorMessage("");
 
     try {
+      // Split full name into firstName and lastName for the backend API
+      const parts = fullName.trim().split(/\s+/);
+      const firstName = parts[0] || "";
+      const lastName = parts.slice(1).join(" ") || "";
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          phone,
+          email,
+          service,
+          message,
+        }),
       });
 
       const result = await response.json();
@@ -57,311 +66,330 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        phone: "",
-        email: "",
-        service: "ac-repair",
-        message: "",
-      });
+      setFullName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+      setService("Commercial HVAC");
     } catch (err: unknown) {
       setStatus("error");
       setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong. Please try again or call us directly."
+        err instanceof Error ? err.message : "An unexpected error occurred."
       );
     }
   };
 
   return (
-    <div className="py-12 sm:py-16 bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold tracking-widest uppercase text-[#128dd1]">
+    <div className="w-full bg-white text-[#0a2c44]">
+      {/* Hero Header / Contact introduction */}
+      <section className="w-full bg-[#0a2c44] text-white py-14 sm:py-18 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-xs font-normal text-[#d7e3ea] mb-4">
+            <Link href="/" className="hover:text-white transition-colors">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-[#d7e3ea]">Contact</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-[62px] font-semibold text-white tracking-tight leading-[1.08] max-w-3xl">
             Contact Us
-          </span>
-          <h1 className="text-4xl font-extrabold text-[#006397] mt-2 sm:text-5xl">
-            Get in Touch With Our HVAC Team
           </h1>
-          <p className="mt-4 text-slate-600 text-lg">
-            Request a free on-site quote, ask a question, or reach the JIM Cooling and Heating Services emergency dispatch team 24 hours a day, 7 days a week.
+
+          <p className="text-base sm:text-lg text-[#d7e3ea] max-w-2xl leading-relaxed mt-4">
+            Let’s talk about your commercial HVAC, commercial refrigeration or residential service needs across Greater Houston.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Contact Details Cards */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white p-7 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-              <h2 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-4">
-                Direct Contact
-              </h2>
+      {/* Main Contact and Inquiry Section */}
+      <section className="w-full py-14 sm:py-20 lg:py-24 bg-[#f4f7f8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            
+            {/* Left Column: Direct Info & Dispatch */}
+            <div className="lg:col-span-5 space-y-7">
+              <div>
+                <span className="text-xs font-bold tracking-widest text-[#087ca7] uppercase block mb-3">
+                  LET’S GET IN TOUCH
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold text-[#0a2c44] leading-tight">
+                  Your business. Your home. Our attention.
+                </h2>
+              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#006397]/10 text-[#006397] flex-shrink-0">
-                  <Phone className="h-5 w-5" />
-                </div>
+              {/* Phone and Email */}
+              <div className="space-y-4">
                 <div>
-                  <div className="text-xs font-bold uppercase text-slate-400">Emergency & Dispatch</div>
+                  <span className="text-sm font-semibold text-[#0a2c44] block">
+                    Call us
+                  </span>
                   <a
                     href="tel:+17132699054"
-                    className="text-lg font-bold text-[#006397] hover:text-[#128dd1] transition-colors"
+                    className="text-2xl sm:text-[30px] font-semibold text-[#0a2c44] hover:text-[#087ca7] transition-colors leading-tight inline-block mt-1"
                   >
                     +1 (713) 269-9054
                   </a>
-                  <p className="text-xs text-slate-500 mt-0.5">Available 24 hours / 7 days a week</p>
                 </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#128dd1]/10 text-[#128dd1] flex-shrink-0">
-                  <Mail className="h-5 w-5" />
-                </div>
                 <div>
-                  <div className="text-xs font-bold uppercase text-slate-400">Email Inquiries</div>
+                  <span className="text-sm font-semibold text-[#0a2c44] block">
+                    Email us
+                  </span>
                   <a
                     href="mailto:hvac@jimcoolingandheating.com"
-                    className="text-base font-semibold text-slate-800 hover:text-[#006397] transition-colors"
+                    className="text-[15px] text-[#087ca7] hover:underline inline-block mt-1"
                   >
                     hvac@jimcoolingandheating.com
                   </a>
-                  <p className="text-xs text-slate-500 mt-0.5">Typical reply within 2 hours</p>
                 </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#b51527]/10 text-[#b51527] flex-shrink-0">
-                  <Clock className="h-5 w-5" />
-                </div>
                 <div>
-                  <div className="text-xs font-bold uppercase text-slate-400">Regular Service Hours</div>
-                  <p className="text-sm font-semibold text-slate-800">Monday – Saturday: 7:00 AM – 8:00 PM</p>
-                  <p className="text-xs text-[#b51527] font-semibold mt-0.5">Emergency Dispatch: 24/7/365</p>
+                  <a
+                    href="tel:+17132699054"
+                    className="inline-flex items-center gap-3 px-5 py-3.5 bg-white border border-[#d9e3e8] hover:border-[#087ca7] hover:text-[#087ca7] text-[#0a2c44] text-sm font-semibold rounded transition-colors shadow-sm"
+                  >
+                    <Phone className="w-4 h-4 text-[#087ca7]" />
+                    <span>Call Us</span>
+                  </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#006397]/10 text-[#006397] flex-shrink-0">
-                  <MapPin className="h-5 w-5" />
+              {/* Business Details */}
+              <div className="border-t border-[#d9e3e8] pt-6 space-y-5">
+                <div className="flex items-start gap-3.5">
+                  <div className="mt-0.5 text-[#087ca7]">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-semibold text-[#0a2c44] block">
+                      Regular business hours
+                    </span>
+                    <span className="text-sm text-[#435b68] block mt-0.5">
+                      Mon–Sat 7:00 AM–8:00 PM
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-bold uppercase text-slate-400">Service Coverage</div>
-                  <p className="text-sm font-semibold text-slate-800">Metropolitan Area & Regional Counties</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Licensed, Bonded & Insured</p>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="mt-0.5 text-[#087ca7]">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-semibold text-[#0a2c44] block">
+                      Serving Greater Houston
+                    </span>
+                    <span className="text-sm text-[#435b68] block mt-0.5">
+                      Houston, TX &amp; surrounding communities.
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Emergency Callout Card */}
-            <div className="bg-[#b51527] text-white p-6 rounded-2xl shadow-md space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase bg-white/20 px-3 py-1 rounded-full w-fit">
-                <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
-                HVAC Emergency?
-              </div>
-              <h3 className="text-lg font-bold">No Heat or AC Not Working?</h3>
-              <p className="text-xs text-white/90">
-                Call our direct emergency line immediately. A certified HVAC technician will be routed to your location as quickly as possible.
-              </p>
-              <a
-                href="tel:+17132699054"
-                className="inline-flex items-center gap-2 bg-white text-[#b51527] px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-slate-100 transition-colors"
-              >
-                <Phone className="h-4 w-4" />
-                <span>Call +1 (713) 269-9054</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Form */}
-          <div id="quote" className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-slate-100 shadow-sm">
-            <h2 className="text-2xl font-bold text-[#006397] mb-2">
-              Request a Free Quote
-            </h2>
-            <p className="text-sm text-slate-600 mb-8">
-              Fill out the form below and one of our HVAC specialists will get back to you promptly with an upfront quote.
-            </p>
-
-            {status === "success" ? (
-              <div className="p-8 rounded-xl bg-green-50 border border-green-200 text-center space-y-4">
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">
-                  Quote Request Received!
+              {/* Urgent Service Guidance Card */}
+              <div className="bg-[#eaf5fa] rounded-md p-5 border border-[#bfd8e5] space-y-2">
+                <h3 className="text-base font-semibold text-[#0a2c44]">
+                  Urgent service needs?
                 </h3>
-                <p className="text-slate-600 text-sm max-w-md mx-auto">
-                  Thank you! We have sent your request to our dispatch team at{" "}
-                  <strong className="text-slate-800">hvac@jimcoolingandheating.com</strong>. One of our specialists will review your project details and follow up shortly.
+                <p className="text-sm text-[#435b68] leading-relaxed">
+                  24/7 emergency service. Please call rather than wait for an online inquiry.
                 </p>
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setStatus("idle")}
-                    className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-semibold hover:bg-slate-50 transition-colors shadow-sm"
-                  >
-                    Send Another Request
-                  </button>
-                </div>
               </div>
-            ) : (
-              <form className="space-y-5" onSubmit={handleSubmit}>
-                {status === "error" && (
-                  <div className="p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-sm">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+            </div>
+
+            {/* Right Column: Inquiry Form Card */}
+            <div id="quote" className="lg:col-span-7">
+              <div className="bg-white rounded-md border border-[#d9e3e8] p-6 sm:p-8 md:p-9 shadow-sm">
+                <div className="mb-6">
+                  <h3 className="text-2xl sm:text-[30px] font-semibold text-[#0a2c44] leading-tight">
+                    How can we help?
+                  </h3>
+                  <p className="text-sm sm:text-base text-[#435b68] mt-2 leading-relaxed">
+                    Request service, an estimate or a maintenance proposal. Share a few details to start the conversation.
+                  </p>
+                </div>
+
+                {status === "success" ? (
+                  <div className="p-8 rounded bg-[#eaf5fa] border border-[#bfd8e5] text-center space-y-3">
+                    <CheckCircle2 className="w-10 h-10 text-[#087ca7] mx-auto" />
+                    <h4 className="text-lg font-semibold text-[#0a2c44]">
+                      Message Successfully Sent!
+                    </h4>
+                    <p className="text-sm text-[#435b68] max-w-md mx-auto leading-relaxed">
+                      Thank you for contacting JIM Cooling &amp; Heating Services. A member of our technical team will review your inquiry and reach out shortly.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#087ca7] hover:underline"
+                    >
+                      <span>Send Another Request</span>
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    {status === "error" && (
+                      <div className="p-4 rounded bg-red-50 border border-red-200 text-red-700 flex items-start gap-3 text-sm">
+                        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600" />
+                        <span>{errorMessage}</span>
+                      </div>
+                    )}
+
+                    {/* Full Name */}
                     <div>
-                      <strong className="block font-semibold">Unable to submit request</strong>
-                      <span>{errorMessage}</span>
+                      <label
+                        htmlFor="fullName"
+                        className="block text-sm font-semibold text-[#0a2c44] mb-2"
+                      >
+                        Full name
+                      </label>
+                      <input
+                        type="text"
+                        id="fullName"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="w-full px-3.5 py-3 rounded border border-[#a7bac5] focus:border-[#087ca7] focus:ring-1 focus:ring-[#087ca7] outline-none text-sm text-[#0a2c44] bg-white transition-all placeholder:text-[#435b68]/70"
+                        placeholder="Your name"
+                      />
                     </div>
-                  </div>
+
+                    {/* Email and Phone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-semibold text-[#0a2c44] mb-2"
+                        >
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full px-3.5 py-3 rounded border border-[#a7bac5] focus:border-[#087ca7] focus:ring-1 focus:ring-[#087ca7] outline-none text-sm text-[#0a2c44] bg-white transition-all placeholder:text-[#435b68]/70"
+                          placeholder="you@example.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="block text-sm font-semibold text-[#0a2c44] mb-2"
+                        >
+                          Phone
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="w-full px-3.5 py-3 rounded border border-[#a7bac5] focus:border-[#087ca7] focus:ring-1 focus:ring-[#087ca7] outline-none text-sm text-[#0a2c44] bg-white transition-all placeholder:text-[#435b68]/70"
+                          placeholder="Your phone number"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Service Interest */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2.5">
+                        <label className="text-sm font-semibold text-[#0a2c44]">
+                          Service interest
+                        </label>
+                        <span className="text-[13px] text-[#435b68]">
+                          Choose one
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {SERVICE_OPTIONS.map((opt) => {
+                          const isSelected = service === opt.id;
+                          return (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => setService(opt.id)}
+                              className={`flex items-center gap-3 px-3.5 py-3 rounded text-left transition-all text-sm ${
+                                isSelected
+                                  ? "border-2 border-[#087ca7] bg-[#eaf5fa] text-[#0a2c44] font-medium"
+                                  : "border border-[#a7bac5] bg-white text-[#0a2c44] hover:border-[#087ca7]"
+                              }`}
+                            >
+                              <span
+                                className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
+                                  isSelected
+                                    ? "border-[#087ca7] bg-[#087ca7]"
+                                    : "border-[#a7bac5] bg-white"
+                                }`}
+                              >
+                                {isSelected && (
+                                  <span className="w-1.5 h-1.5 rounded-full bg-white block" />
+                                )}
+                              </span>
+                              <span>{opt.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <p className="text-[13px] text-[#435b68] mt-2.5 leading-relaxed">
+                        For a commercial maintenance proposal, choose Preventive Maintenance. For financing questions, choose Financing Inquiry—no financial information needed.
+                      </p>
+                    </div>
+
+                    {/* Brief Message */}
+                    <div>
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-semibold text-[#0a2c44] mb-2"
+                      >
+                        Brief message or project description
+                      </label>
+                      <textarea
+                        id="message"
+                        rows={4}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full px-3.5 py-3 rounded border border-[#a7bac5] focus:border-[#087ca7] focus:ring-1 focus:ring-[#087ca7] outline-none text-sm text-[#0a2c44] bg-white transition-all resize-y placeholder:text-[#435b68]/70"
+                        placeholder="Tell us what you need help with."
+                      />
+                    </div>
+
+                    {/* Submit Area */}
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        disabled={status === "loading"}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#087ca7] hover:bg-[#076b91] text-white font-semibold text-sm px-6 py-3.5 rounded transition-colors shadow-sm disabled:opacity-60 cursor-pointer"
+                      >
+                        {status === "loading" ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Sending Inquiry...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Inquiry</span>
+                            <ArrowUpRight className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+
+                      <p className="text-xs text-[#435b68] mt-3">
+                        Prompt technical response within 2 hours during regular hours. Your details are never shared.
+                      </p>
+                    </div>
+                  </form>
                 )}
+              </div>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label
-                      htmlFor="firstName"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                    >
-                      First Name *
-                    </label>
-                    <input
-                      id="firstName"
-                      name="firstName"
-                      type="text"
-                      required
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      disabled={status === "loading"}
-                      placeholder="John"
-                      className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 disabled:bg-slate-50 disabled:text-slate-400"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="lastName"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                    >
-                      Last Name *
-                    </label>
-                    <input
-                      id="lastName"
-                      name="lastName"
-                      type="text"
-                      required
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      disabled={status === "loading"}
-                      placeholder="Doe"
-                      className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 disabled:bg-slate-50 disabled:text-slate-400"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                    >
-                      Phone Number *
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={handleChange}
-                      disabled={status === "loading"}
-                      placeholder="+1 (713) 000-0000"
-                      className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 disabled:bg-slate-50 disabled:text-slate-400"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                    >
-                      Email Address *
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      disabled={status === "loading"}
-                      placeholder="john@example.com"
-                      className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 disabled:bg-slate-50 disabled:text-slate-400"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="service"
-                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                  >
-                    Service Needed *
-                  </label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    disabled={status === "loading"}
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 bg-white disabled:bg-slate-50 disabled:text-slate-400"
-                  >
-                    <option value="ac-repair">Air Conditioning Repair or Diagnostic</option>
-                    <option value="ac-install">New AC Unit Installation / Replacement</option>
-                    <option value="heating-repair">Heating & Furnace Repair</option>
-                    <option value="heating-install">Furnace / Heat Pump Installation</option>
-                    <option value="maintenance">Seasonal Maintenance & Tune-Up</option>
-                    <option value="air-quality">Indoor Air Quality / Duct Cleaning</option>
-                    <option value="emergency">24/7 Emergency Service</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5"
-                  >
-                    Project Details / Symptoms
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    disabled={status === "loading"}
-                    placeholder="Describe your heating or cooling system issue or installation request..."
-                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#128dd1] text-sm text-slate-800 disabled:bg-slate-50 disabled:text-slate-400"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#b51527] hover:bg-[#961220] text-white py-3.5 px-6 rounded-lg font-bold text-base shadow-md hover:shadow-lg transition-all disabled:opacity-75 disabled:cursor-not-allowed"
-                >
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      <span>Sending Request...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CalendarDays className="h-5 w-5" />
-                      <span>Submit Quote Request</span>
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

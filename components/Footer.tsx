@@ -1,170 +1,133 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  ShieldCheck,
-  ArrowRight,
-  ExternalLink,
-} from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = 2026;
+  const pathname = usePathname();
+  const isContactPage = pathname === "/contact";
 
-  const services = [
-    { name: "HVAC Servicing & Repair", href: "/services#servicing" },
-    { name: "HVAC Installation & Replacement", href: "/services#installation" },
-    { name: "Preventative Maintenance", href: "/services#maintenance" },
-    { name: "Commercial & Residential HVAC", href: "/services" },
-    { name: "24/7 Emergency HVAC Service", href: "/contact#quote" },
-  ];
-
-  const quickLinks = [
+  const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Services", href: "/services" },
-    { name: "About Us", href: "/about" },
+    { name: "Commercial HVAC", href: "/commercial-hvac" },
+    { name: "Commercial Refrigeration", href: "/commercial-refrigeration" },
+    { name: "Residential HVAC", href: "/residential-hvac" },
+    { name: "Financing", href: "/financing" },
     { name: "Projects", href: "/projects" },
-    { name: "Contact & Free Quote", href: "/contact" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <footer className="w-full bg-[#002f48] text-white pt-16 pb-8 border-t border-[#006397]/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-white/10">
-          {/* Column 1: Brand & Credentials (4 cols) */}
-          <div className="lg:col-span-4 space-y-5">
-            <Link href="/" className="inline-block p-1 bg-white/95 rounded-xl shadow-md">
-              <Image
-                src="/logo.webp"
-                alt="JIM Cooling and Heating Services Logo"
-                width={150}
-                height={92}
-                className="h-12 w-auto object-contain"
-              />
-            </Link>
+    <footer className="w-full">
+      {/* Contact Invitation Banner (Pre-footer from Figma, omitted on Contact page to avoid duplication) */}
+      {!isContactPage && (
+        <section className="w-full bg-[#0a2c44] text-white py-16 sm:py-20 border-b border-[#142e40]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-3">
+              <span className="text-xs font-bold tracking-widest text-[#087ca7] uppercase block">
+                LET’S TALK ABOUT YOUR SYSTEM
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight">
+                Your business. Your home. Our attention.
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed pt-1">
+                Tell us what your property needs. We’ll help you take the next step in service, maintenance or a system upgrade.
+              </p>
+            </div>
 
-            <p className="text-sm text-sky-100/80 leading-relaxed max-w-sm">
-              Since 2006, JIM Cooling and Heating Services has been Greater Houston’s trusted partner for top-notch residential and commercial HVAC solutions, emergency repairs, and preventative maintenance.
-            </p>
-
-            <div className="space-y-2 pt-1 text-xs text-sky-100/90">
-              <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
-                <ShieldCheck className="h-4 w-4 text-[#128dd1]" />
-                <span className="font-semibold">Licensed, Bonded & Insured</span>
+            {/* Right Contact Info */}
+            <div className="lg:col-span-5 flex flex-col lg:items-end justify-center space-y-2">
+              <a
+                href="tel:+17132699054"
+                className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white hover:text-[#087ca7] transition-colors inline-block tracking-tight"
+              >
+                +1 (713) 269-9054
+              </a>
+              <a
+                href="mailto:hvac@jimcoolingandheating.com"
+                className="text-sm sm:text-base text-slate-300 hover:text-white transition-colors flex items-center gap-2"
+              >
+                <Mail className="w-4 h-4 text-[#087ca7]" />
+                <span>hvac@jimcoolingandheating.com</span>
+              </a>
+              <div className="text-xs sm:text-sm text-slate-400 flex items-center gap-1.5 pt-1">
+                <MapPin className="w-3.5 h-3.5 text-[#087ca7]" />
+                <span>Serving Greater Houston</span>
               </div>
             </div>
           </div>
-
-          {/* Column 2: Quick Links (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white border-b border-[#128dd1]/40 pb-2">
-              Quick Links
-            </h3>
-            <ul className="space-y-2.5 text-sm text-sky-100/80">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200"
-                  >
-                    <ArrowRight className="h-3 w-3 text-[#128dd1]" />
-                    <span>{link.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: HVAC Services (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white border-b border-[#128dd1]/40 pb-2">
-              Our Services
-            </h3>
-            <ul className="space-y-2.5 text-sm text-sky-100/80">
-              {services.map((service) => (
-                <li key={service.name}>
-                  <Link
-                    href={service.href}
-                    className="hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200"
-                  >
-                    <ArrowRight className="h-3 w-3 text-[#128dd1]" />
-                    <span>{service.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Contact & Hours (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white border-b border-[#128dd1]/40 pb-2">
-              Contact & Dispatch
-            </h3>
-            <ul className="space-y-3 text-sm text-sky-100/80">
-              <li className="flex items-start gap-3">
-                <Phone className="h-4 w-4 text-[#128dd1] flex-shrink-0 mt-1" />
-                <div>
-                  <div className="text-xs text-sky-200/70 uppercase font-semibold">24/7 Direct Line</div>
-                  <a
-                    href="tel:+17132699054"
-                    className="text-base font-bold text-white hover:text-[#128dd1] transition-colors"
-                  >
-                    +1 (713) 269-9054
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Mail className="h-4 w-4 text-[#128dd1] flex-shrink-0 mt-1" />
-                <div>
-                  <div className="text-xs text-sky-200/70 uppercase font-semibold">Email Inquiries</div>
-                  <a
-                    href="mailto:hvac@jimcoolingandheating.com"
-                    className="text-sm text-white hover:text-[#128dd1] transition-colors"
-                  >
-                    hvac@jimcoolingandheating.com
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Clock className="h-4 w-4 text-[#128dd1] flex-shrink-0 mt-1" />
-                <div>
-                  <div className="text-xs text-sky-200/70 uppercase font-semibold">Working Hours</div>
-                  <span className="text-xs text-white">Mon - Sat: 7:00 AM – 8:00 PM</span>
-                  <div className="text-xs text-[#b51527] font-bold mt-0.5">Emergency Dispatch: 24/7</div>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-[#128dd1] flex-shrink-0 mt-1" />
-                <span className="text-xs text-sky-100/80">
-                  Serving Houston, TX & Surrounding Regional Counties
-                </span>
-              </li>
-            </ul>
-          </div>
         </div>
+      </section>
+      )}
 
-        {/* Very Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sky-200/70">
-          {/* Left: Copyright */}
-          <div>
-            © {currentYear} JIM Cooling and Heating Services. All rights reserved.
+      {/* Main Footer (Figma Footer) */}
+      <div className="w-full bg-white text-[#0a2c44] py-12 lg:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Top Row: Brand & Navigation */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-10">
+            {/* Brand Signature */}
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12 shrink-0">
+                <Image
+                  src="/images/figma/logo.png"
+                  alt="JIM Cooling & Heating Services Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm sm:text-base font-semibold text-[#0a2c44] leading-tight">
+                  JIM Cooling & Heating Services
+                </span>
+                <span className="text-xs text-[#4e6470] mt-0.5">
+                  Commercial expertise. Residential comfort.
+                </span>
+              </div>
+            </div>
+
+            {/* Footer Navigation Links */}
+            <nav className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-[13px] font-medium text-[#0a2c44] hover:text-[#087ca7] transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          {/* Right: Indeva Websites link opening in new tab */}
-          <div className="flex items-center gap-1.5">
-            <span>Powered by</span>
-            <a
-              href="https://indevasa.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-white hover:text-[#128dd1] inline-flex items-center gap-1 transition-colors underline-offset-4 hover:underline"
-            >
-              <span>Indeva Websites</span>
-              <ExternalLink className="h-3 w-3" />
-            </a>
+          {/* Divider */}
+          <div className="border-t border-[#d9e3e8] pt-8 space-y-4">
+            {/* SEO Overview & Service Areas */}
+            <div className="space-y-2.5 text-xs text-[#4e6470] leading-relaxed max-w-5xl">
+              <p>
+                <strong className="text-[#0a2c44] font-medium">Greater Houston’s Trusted HVAC &amp; Commercial Refrigeration Contractors:</strong> JIM Cooling &amp; Heating Services provides certified commercial HVAC installation, rapid rooftop packaged unit repairs, planned preventive maintenance agreements, and commercial walk-in cooler and freezer solutions for businesses throughout the region. From restaurants, supermarkets, and retail facilities to property management portfolios, our technicians deliver reliable, energy-efficient performance.
+              </p>
+              <p>
+                <strong className="text-[#0a2c44] font-medium">Comprehensive Residential Heating, AC &amp; Indoor Air Quality:</strong> Delivering tailored residential air conditioning replacements, furnace repairs, heat pump upgrades, and advanced dehumidification systems built for Houston’s demanding climate. Proudly serving Houston, Katy, Sugar Land, Pearland, The Woodlands, Cypress, Spring, Pasadena, and surrounding Greater Houston communities with professional care and lasting customer relationships.
+              </p>
+            </div>
+
+            {/* Copyright & Credit */}
+            <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-[#4e6470] font-normal">
+              <p>© 2026 JIM Cooling &amp; Heating Services. All rights reserved.</p>
+              <a
+                href="https://indevasa.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#087ca7] transition-colors"
+              >
+                Indeva Websites
+              </a>
+            </div>
           </div>
         </div>
       </div>
