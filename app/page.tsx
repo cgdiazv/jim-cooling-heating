@@ -134,7 +134,7 @@ export default function Home() {
                 </div>
                 <div className="mt-6 pt-2">
                   <Link
-                    href="/services#commercial-hvac"
+                    href="/commercial-hvac"
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0a2c44] bg-white border border-[#d9e3e8] px-4 py-2 rounded hover:border-[#087ca7] hover:text-[#087ca7] transition-all"
                   >
                     <span>Learn More</span>
@@ -168,7 +168,7 @@ export default function Home() {
                 </div>
                 <div className="mt-6 pt-2">
                   <Link
-                    href="/services#commercial-refrigeration"
+                    href="/commercial-refrigeration"
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0a2c44] bg-white border border-[#d9e3e8] px-4 py-2 rounded hover:border-[#087ca7] hover:text-[#087ca7] transition-all"
                   >
                     <span>Learn More</span>
@@ -202,7 +202,7 @@ export default function Home() {
                 </div>
                 <div className="mt-6 pt-2">
                   <Link
-                    href="/services#residential-hvac"
+                    href="/residential-hvac"
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0a2c44] bg-white border border-[#d9e3e8] px-4 py-2 rounded hover:border-[#087ca7] hover:text-[#087ca7] transition-all"
                   >
                     <span>Learn More</span>
@@ -465,14 +465,14 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mt-8 pt-4">
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="/contact#financing"
+                href="/financing"
                 className="inline-flex items-center gap-2 bg-[#087ca7] hover:bg-[#076b91] text-white font-semibold text-sm px-6 py-3 rounded transition-colors group"
               >
                 <span>Explore Financing Options</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
               <Link
-                href="/contact#financing"
+                href="/financing"
                 className="inline-flex items-center gap-2 border border-[#d9e3e8] bg-white text-[#0a2c44] hover:border-[#087ca7] hover:text-[#087ca7] font-semibold text-sm px-6 py-3 rounded transition-colors group"
               >
                 <span>Apply for Financing</span>
